@@ -3,6 +3,25 @@ import os
 
 
 import fnmatch
+import sys
+
+
+def dir(path):
+    files = os.listdir(path) #получаем список файлов и папок в указанном пути
+    directories = []
+    for file in files:
+        if os.path.isdir(os.path.join(path, file)):
+            directories.append(file)
+
+    if len(directories) == 0:
+        print('В данном пути директорий нет.')
+    else:
+        cnt = 0
+        print(f'Директории по указанному пути - {path}:')
+        for directory in directories:
+            cnt += 1
+            print(f'{cnt}. {directory}')
+
 
 def findFiles(target, path):
     target_files = []
@@ -70,18 +89,23 @@ def countBytes(dir):
 
 def runCommand(command, currentDir):
     if command == 1:
-        moveUp()
+        path = input('Введите директорию каталога: ')
+        dir(path)
     elif command == 2:
-        moveDown(currentDir)
+        moveUp()
     elif command == 3:
+        moveDown(currentDir)
+    elif command == 4:
         count = countFiles(currentDir)
         print("Количество файлов:", count)
-    elif command == 4:
+    elif command == 5:
         bytes_count = countBytes(currentDir)
         print("Суммарный объем файлов (в байтах):", bytes_count)
-    elif command == 5:
+    if command == 6:
         target = input("Введите имя файла для поиска: ")
         findFiles(target, currentDir)
+    if command == 7:
+        sys.exit('Работа программы завершена.')
 
 
 def moveDown(currentDir):
