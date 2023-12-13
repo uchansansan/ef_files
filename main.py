@@ -1,13 +1,10 @@
 import os
-
-
-
 import fnmatch
 import sys
 
 
 def dir(path):
-    files = os.listdir(path) #получаем список файлов и папок в указанном пути
+    files = os.listdir(path)
     directories = []
     for file in files:
         if os.path.isdir(os.path.join(path, file)):
@@ -26,16 +23,12 @@ def dir(path):
 def findFiles(target, path):
     target_files = []
 
-    # перебираем все элементы в текущем каталоге
     for item in os.listdir(path):
-        # формируем полный путь до элемента
         item_path = os.path.join(path, item)
 
-        # если это каталог, идем в него
         if os.path.isdir(item_path):
-            target_files += find_files(target, item_path)
+            target_files += findFiles(target, item_path)
 
-        # если это файл и его имя содержит target, добавляем в список
         elif os.path.isfile(item_path) and fnmatch.fnmatch(item, '*{}*'.format(target)):
             target_files.append(item_path)
 
@@ -52,7 +45,9 @@ def acceptcommand():
     choice = 0
     control = True
     while control:
-        print('1.Просмотр каталога\n'
+        print('\n'
+              '\n'
+              '1.Просмотр каталога\n'
               '2.На уровень вверх\n'
               '3.На уровень вниз\n'
               '4.Количество файлов и каталогов\n'
@@ -71,11 +66,10 @@ def acceptcommand():
 
 
 
-def moveUp():
-    curnt_dir = os.getcwd()
-    parnt_dir = os.path.dirname(curnt_dir)
+def moveUp(currrent_dir):
+    parnt_dir = os.path.dirname(current_dir)
     os.chdir(parnt_dir)
-    
+    print(parnt_dir)
 
 def countBytes(dir):
     total_size = 0
@@ -92,7 +86,7 @@ def runCommand(command, currentDir):
         path = input('Введите директорию каталога: ')
         dir(path)
     elif command == 2:
-        moveUp()
+        moveUp(current_dir)
     elif command == 3:
         moveDown(currentDir)
     elif command == 4:
